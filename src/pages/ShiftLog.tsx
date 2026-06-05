@@ -67,15 +67,15 @@ export default function ShiftLog() {
     <div>
       <PageHeader title="New Shift Log" subtitle="Record daily earnings, debt, and fuel per driver" />
 
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Form */}
-        <div className="xl:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-5 flex items-center gap-2">
-            <ClipboardList size={18} className="text-blue-600" /> Log a Shift
+        <div className="lg:col-span-1 bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
+            <ClipboardList size={18} className="text-blue-600 flex-shrink-0" /> Log a Shift
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">Driver</label>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Driver</label>
               <select
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 value={form.driver_id}
@@ -89,7 +89,7 @@ export default function ShiftLog() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">Shift Date</label>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Shift Date</label>
               <input
                 type="date"
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -99,8 +99,8 @@ export default function ShiftLog() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5 flex items-center gap-1">
-                <DollarSign size={12} /> Amount Cashed In (R)
+              <label className="block text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
+                <DollarSign size={12} /> Amount Cashed In
               </label>
               <input
                 type="number"
@@ -114,8 +114,8 @@ export default function ShiftLog() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5 flex items-center gap-1">
-                <AlertTriangle size={12} /> Amount Owing / Debt (R)
+              <label className="block text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
+                <AlertTriangle size={12} /> Amount Owing
               </label>
               <input
                 type="number"
@@ -126,12 +126,12 @@ export default function ShiftLog() {
                 value={form.amount_owing}
                 onChange={(e) => setForm({ ...form, amount_owing: e.target.value })}
               />
-              <p className="text-xs text-gray-400 mt-1">This will be added to the driver's total debt profile.</p>
+              <p className="text-xs text-gray-400 mt-1">Added to driver's debt profile.</p>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5 flex items-center gap-1">
-                <Fuel size={12} /> Fuel Costs (R)
+              <label className="block text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
+                <Fuel size={12} /> Fuel Costs
               </label>
               <input
                 type="number"
@@ -144,13 +144,12 @@ export default function ShiftLog() {
               />
             </div>
 
-            {/* Tithe Preview */}
             {cashedIn > 0 && (
-              <div className="bg-amber-50 rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="bg-amber-50 rounded-lg px-3 py-2 sm:px-4 sm:py-3 flex items-center gap-3">
                 <Percent size={16} className="text-amber-600 flex-shrink-0" />
                 <div>
-                  <p className="text-xs text-amber-700 font-medium">Auto-calculated Tithe (10%)</p>
-                  <p className="text-lg font-bold text-amber-600">{fmt(tithePreview)}</p>
+                  <p className="text-xs text-amber-700 font-medium">Tithe (10%)</p>
+                  <p className="text-base sm:text-lg font-bold text-amber-600">{fmt(tithePreview)}</p>
                 </div>
               </div>
             )}
@@ -169,44 +168,44 @@ export default function ShiftLog() {
         </div>
 
         {/* Recent Logs */}
-        <div className="xl:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-800">Recent Shift Logs</h2>
+        <div className="lg:col-span-2 bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+            <h2 className="text-sm sm:text-base font-semibold text-gray-800">Recent Shift Logs</h2>
           </div>
           {recentLogs.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-16">No logs recorded yet.</p>
+            <p className="text-xs sm:text-sm text-gray-400 text-center py-12">No logs recorded yet.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs sm:text-sm">
                 <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                   <tr>
-                    <th className="px-5 py-3 text-left">Date</th>
-                    <th className="px-5 py-3 text-left">Driver</th>
-                    <th className="px-5 py-3 text-right">Cashed In</th>
-                    <th className="px-5 py-3 text-right">Owing</th>
-                    <th className="px-5 py-3 text-right">Fuel</th>
-                    <th className="px-5 py-3 text-right">Tithe</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left">Date</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left">Driver</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-right">Cashed</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-right">Owing</th>
+                    <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-right">Fuel</th>
+                    <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-right">Tithe</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {recentLogs.map((log) => (
                     <tr key={log.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-5 py-3 text-gray-500">{log.shift_date}</td>
-                      <td className="px-5 py-3 font-medium text-gray-900">
+                      <td className="px-3 sm:px-4 py-2 sm:py-3 text-gray-500 text-xs">{log.shift_date}</td>
+                      <td className="px-3 sm:px-4 py-2 sm:py-3 font-medium text-gray-900 truncate text-xs sm:text-sm">
                         {(log as any).drivers?.name ?? '—'}
                       </td>
-                      <td className="px-5 py-3 text-right text-emerald-600 font-semibold">
+                      <td className="px-3 sm:px-4 py-2 sm:py-3 text-right text-emerald-600 font-semibold text-xs sm:text-sm whitespace-nowrap">
                         {fmt(Number(log.amount_cashed_in))}
                       </td>
-                      <td className="px-5 py-3 text-right">
+                      <td className="px-3 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">
                         <span className={Number(log.amount_owing) > 0 ? 'text-red-500 font-semibold' : 'text-gray-300'}>
                           {fmt(Number(log.amount_owing))}
                         </span>
                       </td>
-                      <td className="px-5 py-3 text-right text-gray-500">
+                      <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-right text-gray-500">
                         {fmt(Number(log.fuel_costs))}
                       </td>
-                      <td className="px-5 py-3 text-right text-amber-600 font-semibold">
+                      <td className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-right text-amber-600 font-semibold">
                         {fmt(Number(log.tithe))}
                       </td>
                     </tr>

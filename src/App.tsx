@@ -18,10 +18,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
       <Sidebar activePage={activePage} onNavigate={setActivePage} />
-      <main className="flex-1 ml-64 min-h-screen">
-        <div className="max-w-7xl mx-auto px-8 py-8">
+      <main className="flex-1 lg:ml-64 min-h-screen pt-20 lg:pt-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {pageMap[activePage]}
         </div>
       </main>

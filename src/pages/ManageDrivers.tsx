@@ -59,40 +59,40 @@ export default function ManageDrivers() {
       <PageHeader title="Manage Drivers" subtitle="Register drivers and assign fleet vehicles" />
 
       {/* Add Driver Form */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
-        <h2 className="text-base font-semibold text-gray-800 mb-5 flex items-center gap-2">
-          <UserPlus size={18} className="text-blue-600" /> Add New Driver
+      <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+        <h2 className="text-sm sm:text-base font-semibold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
+          <UserPlus size={18} className="text-blue-600 flex-shrink-0" /> Add New Driver
         </h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Full Name</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
             <input
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g. John Doe"
+              placeholder="John Doe"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">License Number</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">License Number</label>
             <input
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g. DL123456"
+              placeholder="DL123456"
               value={form.license_number}
               onChange={(e) => setForm({ ...form, license_number: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Phone Number</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Phone Number</label>
             <input
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g. 071 000 0000"
+              placeholder="071 000 0000"
               value={form.phone_number}
               onChange={(e) => setForm({ ...form, phone_number: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Assign Car (optional)</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Assign Car (optional)</label>
             <select
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               value={form.car_id}
@@ -109,7 +109,7 @@ export default function ManageDrivers() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors w-full sm:w-auto"
             >
               {saving ? 'Saving...' : 'Add Driver'}
             </button>
@@ -118,54 +118,59 @@ export default function ManageDrivers() {
       </div>
 
       {/* Drivers Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h2 className="font-semibold text-gray-800">All Drivers ({drivers.length})</h2>
+      <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800">All Drivers ({drivers.length})</h2>
         </div>
         {drivers.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-16">No drivers registered yet.</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center py-12 sm:py-16">No drivers registered yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs sm:text-sm">
               <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-6 py-3 text-left">Driver</th>
-                  <th className="px-6 py-3 text-left">License</th>
-                  <th className="px-6 py-3 text-left">Phone</th>
-                  <th className="px-6 py-3 text-left">Assigned Car</th>
-                  <th className="px-6 py-3 text-right">Total Debt</th>
-                  <th className="px-6 py-3 text-right"></th>
+                  <th className="px-3 sm:px-6 py-2 sm:py-3 text-left">Driver</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-6 py-2 sm:py-3 text-left">License</th>
+                  <th className="hidden md:table-cell px-3 sm:px-6 py-2 sm:py-3 text-left">Phone</th>
+                  <th className="hidden lg:table-cell px-3 sm:px-6 py-2 sm:py-3 text-left">Car</th>
+                  <th className="px-3 sm:px-6 py-2 sm:py-3 text-right">Debt</th>
+                  <th className="px-3 sm:px-6 py-2 sm:py-3 text-right w-8"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {drivers.map((d) => (
                   <tr key={d.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{d.name}</td>
-                    <td className="px-6 py-4 text-gray-500">
-                      <span className="flex items-center gap-1.5"><CreditCard size={13} />{d.license_number}</span>
+                    <td className="px-3 sm:px-6 py-2 sm:py-4">
+                      <div>
+                        <p className="font-medium text-gray-900 text-xs sm:text-sm">{d.name}</p>
+                        <p className="text-xs text-gray-400 sm:hidden">{d.phone_number}</p>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
-                      <span className="flex items-center gap-1.5"><Phone size={13} />{d.phone_number}</span>
+                    <td className="hidden sm:table-cell px-3 sm:px-6 py-2 sm:py-4 text-gray-500 text-xs">
+                      {d.license_number}
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
+                    <td className="hidden md:table-cell px-3 sm:px-6 py-2 sm:py-4 text-gray-500 text-xs">
+                      {d.phone_number}
+                    </td>
+                    <td className="hidden lg:table-cell px-3 sm:px-6 py-2 sm:py-4 text-gray-500 text-xs">
                       {(d as any).cars ? (
-                        <span className="flex items-center gap-1.5">
-                          <Car size={13} />
-                          {(d as any).cars.name} <span className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">{(d as any).cars.number_plate}</span>
-                        </span>
+                        <div className="flex items-center gap-1">
+                          <span className="truncate">{(d as any).cars.name}</span>
+                          <span className="text-xs bg-gray-100 px-1.5 py-0.5 rounded whitespace-nowrap">{(d as any).cars.number_plate}</span>
+                        </div>
                       ) : (
-                        <span className="text-gray-300 italic text-xs">No car</span>
+                        <span className="text-gray-300 italic">—</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <span className={`font-semibold ${Number(d.total_debt) > 0 ? 'text-red-600' : 'text-gray-400'}`}>
+                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-right">
+                      <span className={`font-semibold text-xs sm:text-sm ${Number(d.total_debt) > 0 ? 'text-red-600' : 'text-gray-400'}`}>
                         {fmt(d.total_debt)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-3 sm:px-6 py-2 sm:py-4 text-right">
                       <button
                         onClick={() => handleDelete(d.id)}
-                        className="text-gray-300 hover:text-red-500 transition-colors"
+                        className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0"
                         title="Remove driver"
                       >
                         <Trash2 size={16} />

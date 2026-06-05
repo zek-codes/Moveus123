@@ -64,7 +64,7 @@ export default function Dashboard() {
     <div>
       <PageHeader title="Dashboard" subtitle="Live overview of your fleet operations" />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 mb-8 lg:mb-10">
         <StatCard
           label="Total Cashed In"
           value={fmt(metrics.totalCashedIn)}
@@ -95,27 +95,27 @@ export default function Dashboard() {
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
         {/* Recent Shifts */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-            <TrendingUp size={18} className="text-blue-600" />
-            <h2 className="font-semibold text-gray-800">Recent Shifts</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+            <TrendingUp size={18} className="text-blue-600 flex-shrink-0" />
+            <h2 className="font-semibold text-sm sm:text-base text-gray-800">Recent Shifts</h2>
           </div>
           {metrics.recentShifts.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-12">No shift logs recorded yet.</p>
+            <p className="text-xs sm:text-sm text-gray-400 text-center py-8 sm:py-12">No shift logs recorded yet.</p>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-gray-50 max-h-96 overflow-y-auto">
               {metrics.recentShifts.map((s) => (
-                <div key={s.id} className="flex items-center justify-between px-6 py-3.5">
-                  <div>
-                    <p className="text-sm font-medium text-gray-800">
+                <div key={s.id} className="flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3.5 gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">
                       {(s as any).drivers?.name ?? 'Unknown Driver'}
                     </p>
                     <p className="text-xs text-gray-400">{s.shift_date}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-emerald-600">{fmt(Number(s.amount_cashed_in))}</p>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-xs sm:text-sm font-semibold text-emerald-600">{fmt(Number(s.amount_cashed_in))}</p>
                     {Number(s.amount_owing) > 0 && (
                       <p className="text-xs text-red-500">Owing: {fmt(Number(s.amount_owing))}</p>
                     )}
@@ -127,25 +127,25 @@ export default function Dashboard() {
         </div>
 
         {/* Unpaid Maintenance */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-            <Calendar size={18} className="text-amber-500" />
-            <h2 className="font-semibold text-gray-800">Unpaid Service Debt</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+            <Calendar size={18} className="text-amber-500 flex-shrink-0" />
+            <h2 className="font-semibold text-sm sm:text-base text-gray-800">Unpaid Service Debt</h2>
           </div>
           {metrics.unpaidMaintenance.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-12">No unpaid service records.</p>
+            <p className="text-xs sm:text-sm text-gray-400 text-center py-8 sm:py-12">No unpaid service records.</p>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-gray-50 max-h-96 overflow-y-auto">
               {metrics.unpaidMaintenance.map((m) => (
-                <div key={m.id} className="flex items-center justify-between px-6 py-3.5">
-                  <div>
-                    <p className="text-sm font-medium text-gray-800">{m.service_type}</p>
-                    <p className="text-xs text-gray-400">
+                <div key={m.id} className="flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3.5 gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">{m.service_type}</p>
+                    <p className="text-xs text-gray-400 truncate">
                       {(m as any).cars?.name} — {(m as any).cars?.number_plate}
                     </p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-red-600">{fmt(Number(m.cost))}</p>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-xs sm:text-sm font-semibold text-red-600">{fmt(Number(m.cost))}</p>
                     <p className="text-xs text-gray-400">{m.service_date}</p>
                   </div>
                 </div>

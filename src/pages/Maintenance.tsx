@@ -123,42 +123,42 @@ export default function Maintenance() {
 
       {/* Alerts bar */}
       {(serviceAlerts.length > 0 || unpaidDebt.length > 0) && (
-        <div className="space-y-3 mb-8">
+        <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
           {serviceAlerts.map((m) => {
             const current = latestMileagePerCar[m.car_id] ?? 0;
             const remaining = Number(m.next_service_km) - current;
             return (
-              <div key={m.id} className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-5 py-3.5">
-                <AlertTriangle size={18} className="text-amber-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-amber-800">Service Due Soon — {(m as any).cars?.name} ({(m as any).cars?.number_plate})</p>
-                  <p className="text-xs text-amber-600">{m.service_type} — {remaining.toLocaleString()} km remaining before next service</p>
+              <div key={m.id} className="flex items-start gap-2 sm:gap-3 bg-amber-50 border border-amber-200 rounded-lg sm:rounded-xl px-3 sm:px-5 py-2.5 sm:py-3.5">
+                <AlertTriangle size={16} className="sm:text-lg text-amber-500 mt-0.5 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm font-semibold text-amber-800 truncate">Service Due — {(m as any).cars?.name}</p>
+                  <p className="text-xs text-amber-600 mt-0.5">{m.service_type} — {remaining.toLocaleString()} km remaining</p>
                 </div>
               </div>
             );
           })}
           {unpaidDebt.length > 0 && (
-            <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-5 py-3.5">
-              <AlertTriangle size={18} className="text-red-500 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="text-sm font-semibold text-red-800">Unpaid Service Debt — {fmt(totalUnpaid)}</p>
-                <p className="text-xs text-red-600">{unpaidDebt.length} unpaid service record{unpaidDebt.length > 1 ? 's' : ''} across the fleet.</p>
+            <div className="flex items-start gap-2 sm:gap-3 bg-red-50 border border-red-200 rounded-lg sm:rounded-xl px-3 sm:px-5 py-2.5 sm:py-3.5">
+              <AlertTriangle size={16} className="sm:text-lg text-red-500 mt-0.5 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-semibold text-red-800">Unpaid Service Debt — {fmt(totalUnpaid)}</p>
+                <p className="text-xs text-red-600">{unpaidDebt.length} unpaid record{unpaidDebt.length > 1 ? 's' : ''}</p>
               </div>
             </div>
           )}
         </div>
       )}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6 lg:mb-8">
         {/* Mileage Form */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-5 flex items-center gap-2">
-            <Gauge size={18} className="text-blue-600" /> Log Weekly Mileage
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
+            <Gauge size={18} className="text-blue-600 flex-shrink-0" /> Log Weekly Mileage
           </h2>
-          <form onSubmit={handleMileageSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleMileageSubmit} className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Driver</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Driver</label>
                 <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   value={mileageForm.driver_id}
@@ -169,7 +169,7 @@ export default function Maintenance() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Car</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Car</label>
                 <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   value={mileageForm.car_id}
@@ -180,21 +180,21 @@ export default function Maintenance() {
                 </select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Weekly Mileage (km)</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Weekly Mileage (km)</label>
                 <input
                   type="number"
                   min="0"
                   step="0.1"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g. 450"
+                  placeholder="450"
                   value={mileageForm.mileage_km}
                   onChange={(e) => setMileageForm({ ...mileageForm, mileage_km: e.target.value })}
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Week Start</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Week Start</label>
                 <input
                   type="date"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -204,11 +204,11 @@ export default function Maintenance() {
               </div>
             </div>
             {mileageKm > 0 && (
-              <div className="bg-blue-50 rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="bg-blue-50 rounded-lg px-3 py-2 sm:px-4 sm:py-3 flex items-center gap-3">
                 <Droplets size={16} className="text-blue-600 flex-shrink-0" />
                 <div>
-                  <p className="text-xs text-blue-700 font-medium">Estimated Fuel Required (@{FUEL_EFFICIENCY}L/100km)</p>
-                  <p className="text-lg font-bold text-blue-600">{fuelPreview} litres</p>
+                  <p className="text-xs text-blue-700 font-medium">Fuel Est. @ {FUEL_EFFICIENCY}L/100km</p>
+                  <p className="text-base sm:text-lg font-bold text-blue-600">{fuelPreview}L</p>
                 </div>
               </div>
             )}
@@ -224,12 +224,12 @@ export default function Maintenance() {
         </div>
 
         {/* Maintenance Form */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-5 flex items-center gap-2">
-            <Wrench size={18} className="text-amber-500" /> Log Service Record
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800 mb-4 sm:mb-5 flex items-center gap-2">
+            <Wrench size={18} className="text-amber-500 flex-shrink-0" /> Log Service Record
           </h2>
-          <form onSubmit={handleMaintSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleMaintSubmit} className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1.5">Car</label>
                 <select
@@ -251,9 +251,9 @@ export default function Maintenance() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5 flex items-center gap-1"><DollarSign size={11} /> Cost (R)</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1 flex items-center gap-1"><DollarSign size={11} /> Cost</label>
                 <input
                   type="number"
                   min="0"
@@ -265,7 +265,7 @@ export default function Maintenance() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Service Date</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Service Date</label>
                 <input
                   type="date"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -274,35 +274,35 @@ export default function Maintenance() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Odometer at Service (km)</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Odometer (km)</label>
                 <input
                   type="number"
                   min="0"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g. 85000"
+                  placeholder="85000"
                   value={maintForm.odometer_at_service}
                   onChange={(e) => setMaintForm({ ...maintForm, odometer_at_service: e.target.value })}
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Next Service at (km)</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Next Service (km)</label>
                 <input
                   type="number"
                   min="0"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g. 95000"
+                  placeholder="95000"
                   value={maintForm.next_service_km}
                   onChange={(e) => setMaintForm({ ...maintForm, next_service_km: e.target.value })}
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">Notes (optional)</label>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Notes (optional)</label>
               <input
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Any additional notes..."
+                placeholder="Notes..."
                 value={maintForm.notes}
                 onChange={(e) => setMaintForm({ ...maintForm, notes: e.target.value })}
               />
@@ -329,33 +329,33 @@ export default function Maintenance() {
       </div>
 
       {/* Mileage Log Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-          <Gauge size={16} className="text-blue-600" />
-          <h2 className="font-semibold text-gray-800">Weekly Mileage Logs</h2>
+      <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
+        <div className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+          <Gauge size={16} className="text-blue-600 flex-shrink-0" />
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800">Weekly Mileage Logs</h2>
         </div>
         {mileageLogs.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-10">No mileage logs yet.</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center py-8 sm:py-10">No mileage logs yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs sm:text-sm">
               <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-5 py-3 text-left">Week Start</th>
-                  <th className="px-5 py-3 text-left">Driver</th>
-                  <th className="px-5 py-3 text-left">Car</th>
-                  <th className="px-5 py-3 text-right">Mileage (km)</th>
-                  <th className="px-5 py-3 text-right">Fuel Est. (L)</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-left">Week Start</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 text-left">Driver</th>
+                  <th className="hidden md:table-cell px-3 sm:px-5 py-2 sm:py-3 text-left">Car</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-right">Mileage</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 text-right">Fuel (L)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {mileageLogs.map((ml) => (
                   <tr key={ml.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-5 py-3 text-gray-500">{ml.week_start}</td>
-                    <td className="px-5 py-3 font-medium text-gray-900">{(ml as any).drivers?.name ?? '—'}</td>
-                    <td className="px-5 py-3 text-gray-500">{(ml as any).cars?.name} <span className="text-xs text-gray-300">({(ml as any).cars?.number_plate})</span></td>
-                    <td className="px-5 py-3 text-right font-semibold text-gray-800">{Number(ml.mileage_km).toLocaleString()}</td>
-                    <td className="px-5 py-3 text-right text-blue-600 font-semibold">{Number(ml.fuel_required_litres).toFixed(2)}</td>
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-gray-500 text-xs">{ml.week_start}</td>
+                    <td className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 font-medium text-gray-900 text-xs sm:text-sm">{(ml as any).drivers?.name ?? '—'}</td>
+                    <td className="hidden md:table-cell px-3 sm:px-5 py-2 sm:py-3 text-gray-500 text-xs truncate">{(ml as any).cars?.name}</td>
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-right font-semibold text-gray-800 text-xs sm:text-sm">{Number(ml.mileage_km).toLocaleString()}</td>
+                    <td className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 text-right text-blue-600 font-semibold">{Number(ml.fuel_required_litres).toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -365,47 +365,47 @@ export default function Maintenance() {
       </div>
 
       {/* Maintenance Log Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-          <Wrench size={16} className="text-amber-500" />
-          <h2 className="font-semibold text-gray-800">Service History</h2>
+      <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100">
+          <Wrench size={16} className="text-amber-500 flex-shrink-0" />
+          <h2 className="text-sm sm:text-base font-semibold text-gray-800">Service History</h2>
         </div>
         {maintLogs.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-10">No service records yet.</p>
+          <p className="text-xs sm:text-sm text-gray-400 text-center py-8 sm:py-10">No service records yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs sm:text-sm">
               <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                 <tr>
-                  <th className="px-5 py-3 text-left">Date</th>
-                  <th className="px-5 py-3 text-left">Car</th>
-                  <th className="px-5 py-3 text-left">Service</th>
-                  <th className="px-5 py-3 text-right">Cost</th>
-                  <th className="px-5 py-3 text-right">Next (km)</th>
-                  <th className="px-5 py-3 text-center">Paid</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-left">Date</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 text-left">Car</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-left">Service</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-right">Cost</th>
+                  <th className="hidden lg:table-cell px-3 sm:px-5 py-2 sm:py-3 text-right">Next (km)</th>
+                  <th className="px-3 sm:px-5 py-2 sm:py-3 text-center w-8">Paid</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {maintLogs.map((m) => (
                   <tr key={m.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-5 py-3 text-gray-500">{m.service_date}</td>
-                    <td className="px-5 py-3 font-medium text-gray-900">
-                      {(m as any).cars?.name} <span className="text-xs text-gray-400">({(m as any).cars?.number_plate})</span>
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-gray-500 text-xs">{m.service_date}</td>
+                    <td className="hidden sm:table-cell px-3 sm:px-5 py-2 sm:py-3 font-medium text-gray-900 text-xs sm:text-sm">
+                      {(m as any).cars?.name}
                     </td>
-                    <td className="px-5 py-3 text-gray-700">{m.service_type}</td>
-                    <td className="px-5 py-3 text-right font-semibold text-gray-800">{fmt(Number(m.cost))}</td>
-                    <td className="px-5 py-3 text-right text-gray-500">
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-gray-700 text-xs sm:text-sm truncate">{m.service_type}</td>
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-right font-semibold text-gray-800 text-xs sm:text-sm whitespace-nowrap">{fmt(Number(m.cost))}</td>
+                    <td className="hidden lg:table-cell px-3 sm:px-5 py-2 sm:py-3 text-right text-gray-500 text-xs">
                       {Number(m.next_service_km) > 0 ? Number(m.next_service_km).toLocaleString() : '—'}
                     </td>
-                    <td className="px-5 py-3 text-center">
+                    <td className="px-3 sm:px-5 py-2 sm:py-3 text-center">
                       <button
                         onClick={() => togglePaid(m.id, m.is_paid)}
-                        className="transition-colors"
+                        className="transition-colors flex-shrink-0"
                         title={m.is_paid ? 'Mark as unpaid' : 'Mark as paid'}
                       >
                         {m.is_paid
-                          ? <CheckCircle size={18} className="text-emerald-500 mx-auto" />
-                          : <AlertTriangle size={18} className="text-red-400 mx-auto" />}
+                          ? <CheckCircle size={16} className="text-emerald-500 mx-auto" />
+                          : <AlertTriangle size={16} className="text-red-400 mx-auto" />}
                       </button>
                     </td>
                   </tr>
